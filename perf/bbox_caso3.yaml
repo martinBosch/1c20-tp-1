@@ -1,0 +1,22 @@
+config:
+    environments:
+      servicio2:
+        target: 'http://localhost:9091'
+        plugins:
+          statsd:
+            host: localhost
+            port: 8125
+            prefix: "artillery-gunicorn"
+
+    pool: 50 # All HTTP requests from all virtual users will be sent over the same connections
+
+    phases:
+      - name: Plain
+        duration: 40
+        arrivalRate: 16.6
+
+scenarios:
+  - name: Root (/)
+    flow:
+      - get:
+          url: '/'

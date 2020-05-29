@@ -1,0 +1,25 @@
+config:
+    environments:
+      node_replicated:
+        target: 'http://localhost:5555/node_replicated'
+        plugins:
+          statsd:
+            host: localhost
+            port: 8125
+            prefix: "artillery-node"
+
+    pool: 50 # All HTTP requests from all virtual users will be sent over the same connections
+
+    phases:
+      - name: Plain
+        duration: 80
+        arrivalRate: 0.6
+      - name: Finish
+        duration: 60
+        arrivalRate: 0
+
+scenarios:
+  - name: Root (/)
+    flow:
+      - get:
+          url: '/heavy'
